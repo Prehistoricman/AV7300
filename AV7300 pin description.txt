@@ -1,0 +1,45 @@
+QFN56
+14 pins per side
+
+1	SCL
+2	SDA
+
+5, 6	Go to the HF PA/RX
+
+8, 9	XTAL
+
+13	VDD 2V7
+
+19, 20	Go to the HF PA/RX
+
+24	BAT
+25	BAT
+
+31	Analog/mic/audio in
+32	Analog/mic/audio in
+33	Analog/mic/audio in
+34	Left audio output
+35	VDD 2V7
+36	Right audio output
+
+38	GPIOx (guess)
+39	GPIOx (guess)
+39	GPIO2
+40	GPIO1
+41	GPIO0
+	(Connected to LEDs)
+42	GPIOx (guess)
+43	GPIO6
+	(Connected to button)
+44	GPIO7
+	(Connected to LED)
+45	CAP
+	Has a 2MHz 1.8V signal on it
+46	CAP
+	Has a 2MHz 1.8V signal on it
+47	VDD 1V4
+48, 49	USB
+
+52	VDD 3V3
+
+56	GPIOx

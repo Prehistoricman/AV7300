@@ -1,0 +1,85 @@
+ROM: 0 - BFFF
+	Can't modify
+	Also has its own checksum
+
+SFR space that doesn't contain a register is unwritable
+	Could use this as a method to detect unused registers
+
+RAM probably ends at EFFF (12KiB)
+
+F051-F050
+	ISR address
+
+F060-F061
+	Probably 'interrupt' enable bits
+	A bit is asserted in the headset ROM for every 2 function pointers written
+
+F095-F094
+	ISR address
+
+F09B-F09A
+	ISR address
+
+F0B0, F0B2
+	Related to headset volume wheel
+
+F0E1, F0E2
+
+F0F4
+
+F100
+	GPIO input data 0 (GPIO0-GPIO7)
+F101
+	GPIO input data 1
+F102
+	GPIO output 0
+F103
+	GPIO output 1
+F104
+	GPIO direction 0
+F105
+	GPIO direction 1
+
+F106, F107, F108, F109, F10A, F10B
+
+F10C
+	related to GPIO input data
+	Copied to 0xE7EC
+F10D
+	related to GPIO input data
+	Copied to 0xE7ED
+F10E
+	Set up to be 0x40 on boot for the button
+	Could be interrupt, pullup, input enable
+F10F
+	Set up to be 0x00 on boot
+	Could be interrupt, pullup, input enable
+
+F180
+	headset
+
+F211
+	headset
+	Mic doesn't work without this having the '4' bit set
+
+F280
+	Headset. Controls some aspects of the mic
+		'2' bit causes no output if set, unless '1' is also set
+		'4' bit enables a steep LPF
+		'8' bit enables the fade in/out
+		'20' bit causes the blue LEDs to be the mic input
+			Possibly this is a mode and there's another byte that describes the GPIO to select
+
+F303, F30D, F310, F311
+	headset
+
+F500, F501
+	headset sub_E672 only
+
+F894
+	Must be some kind of data output register because it's being loaded with data in the headset FW
+	First byte loaded in is special
+
+F9A2
+	Probably data output register
+F9A3

@@ -1,0 +1,204 @@
+Little endian
+8-bit
+
+Flags
+	Flag 3 (B) appears to change register sets
+	Flag 5 (D) global interrupt enable (clear to disable)
+
+00, 01, 02, 03, 04, 05, 06, 07
+	1-byte
+	Increment R0, R1, etc.	
+
+08, 09, 0A, 0B, 0C, 0D, 0E, 0F
+	1 byte
+	Add with carry
+	ADDC R0, (R0, R1, etc...)
+	R0 = R0 + Rx + C
+
+10
+	1 byte
+	NOP (mov R0, R0)
+	Not strictly a NOP: sets zero flag based on the contents of R0
+
+11, 12, 13, 14, 15, 16, 17
+	1-byte
+	Move R1, R2, etc. to R0
+
+19, 1A, 1B, 1C, 1D, 1E, 1F
+	1-byte
+	R0 = R0 OR (R1, R2, etc.)
+
+21, 22, 23, 24, 25, 26, 27
+	1-byte
+	R0 = R0 AND (R1, R2, etc.)
+
+28
+	1-byte
+	Clear R0
+
+29, 2A, 2B, 2C, 2D, 2E, 2F
+	1 byte
+	R0 = R0 XOR (R1, R2, etc.)
+
+30, 31, 32, 33, 34, 35, 36, 37
+	1 byte
+	Lshift R0, R1, etc.
+	Shifts in carry flag (like ADDC)
+
+38, 39, 3A, 3B, 3C, 3D, 3E, 3F
+	1 byte
+	Rshift R0, R1, etc.
+	Logical right shift
+	Shifts in carry flag (like ADDC)
+
+40, 41, 42, 43, 44, 45, 46, 47
+	1 byte
+	Decrement R0, R1, etc.	
+
+48, 49, 4A, 4B, 4C, 4D, 4E, 4F
+	1-byte
+	SUBC R0, (R0, R1, etc.)
+	R0 = R0 - Rx - !C
+	Subtract with (inverse) carry flag
+	Doesn't set the carry flag
+	
+
+50, 51, 52, 53, 54, 55, 56, 57
+	1 byte
+	Add R0, (R0, R1, etc.)
+	Doesn't seem affected by flags
+
+58, 59, 5A, 5B, 5C, 5D, 5E, 5F
+	1 byte
+	Sets flag
+	Zero, carry, negative, register set, ???, interrupt enable, ???, unused
+
+60, 61, 62, 63, 64, 65, 66, 67
+	1 byte
+	Used before JZ and JNZ
+	Sets the zero flag if bit 0, 1, etc. is clear in R0
+
+68, 69, 6A, 6B, 6C, 6D, 6E, 6F
+	1 byte
+	Clear flag
+	Zero, carry, negative, register set, ???, interrupt enable, ???, unused
+
+71, 72, 73, 74, 75, 76, 77
+	1 byte
+	Mov (R1, R2, etc.), R0
+	Doesn't change the C flag
+	Doesn't use the C flag
+	I swear this was conditional when I last tested it
+
+79, 7A, 7B, 7C, 7D, 7E, 7F
+	1 byte
+	CMP R0, (R1, R1, etc.)
+	Sets carry flag if R0 >= Rx. Resets otherwise
+	Sets zero flag if R0 == Rx. Resets otherwise
+	Sets negative flag if Rx > R0. Resets otherwise
+	Unsigned (0xFF is greater than 0x00)
+
+80, 81, 82, 83, 84, 85, 86, 87
+	Push R0, R1, etc.
+
+88, 89, 8A, 8B, 8C, 8D, 8E, 8F
+	Pop R0, R1, etc.
+	Probably doesn't set flags on popped value
+
+90
+	2 bytes
+	JNZ r8
+	Zero flag is set by any write to any register or comparison functions
+
+91
+	2 bytes
+	JNC r8 (jump if not carry)
+
+92
+	2 bytes
+	JNN r8 (jump if not negative)
+
+94	
+
+95	
+
+98
+	2 bytes
+	JZ r8
+
+99
+	2 bytes
+	JC r8
+
+9A
+	2 bytes
+	JN r8 (jump if negative)
+
+B8
+	Probably 1 byte
+	Crashes when put in the LED instruction experiment
+	Perhaps a breakpoint or something debugger related
+
+B9
+	1 byte
+	RET
+	Uses the top two bytes on the stack to return to
+
+BA	RETI
+
+BC
+	3-byte
+	Jump
+
+BF
+	3-byte
+	CALL
+
+C0, C2, C4, C5
+	1 byte
+	16-bit increment of R1R0, R3R2, R5R4, or R7R6
+	Odd instructions are strangely broken
+
+C8, C9, CA, CB, CC, CD, CE, CF
+	3-byte
+	Write R0, R1, etc. to immediate address
+
+D0, D2, D4, D6
+	Indirect store
+	1 byte
+	MOV [R1R0], R0 (or R3R2, R5R4, R7R6)
+
+D8, DA, DC, DE
+	Indirect store
+	2 byte
+	MOV [R1R0 + imm8], R0 (or R3R2, R5R4, R7R6)
+	Immediate is unsigned
+
+E0, E1, E2, E3, E4, E5, E6, E7
+	Load R0, R1, etc. with immediate
+	2-byte
+
+E8, E9, EA, EB, EC, ED, EE, EF
+	Load R0, R1, etc. with data at immediate address
+	3-byte
+
+F0, F2, F4, F6
+	1 byte
+	Load R0 indirect from address R1R0, R3R2, R5R4, R7R6
+
+F8, FA, FC, FE
+	Indirect load
+	2 byte
+	MOV R0, [R1R0 + imm8] (or R3R2, R5R4, R7R6)
+	Immediate is unsigned
+
+F9, FB, FD, FF
+	Broken versions of the previous instruction
+	Uses the same register for upper and lower address
+	R1R1, R3R3, R5R5, R7R7
+
+
+
+Unknown instrucs:
+other flags and their jump instructions
+B8
