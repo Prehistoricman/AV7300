@@ -2,13 +2,13 @@ args = {...}
 ------ User vars ------
 Assembly_file_name = args[1] or "assembly.s"
 ROM_output_file_name = "ROM.hex"
+ROMBaseAddr = 0xD599 --The address of the first byte of the output file
+ROMLength = 0x1FF --The length of the output file in bytes
 
 ------ Internal vars ------
 CurrMode = "T" --T for text/code, D for data
 ROMtext = "" --String builder for ROM
-ROMBaseAddr = 0xD599
 CurrROMAddr = ROMBaseAddr
-ROMLength = 0x1FF
 ROM = {} --Table of values
 CurrRAMAddr = 0
 RAM = {} --Table of values
@@ -27,13 +27,14 @@ ADDR_REGEX_SELECT = "#(%x+)"
 
 --Instructions:
 --[[
-mov reg, [addr]
-mov [addr], reg
+mov reg, [#addr]
+mov [#addr], reg
 mov reg, label
 mov label, reg
-mov reg, imm
+mov reg, #imm
 mov R0, reg
 jmp label
+jmp #addr
 je label
 jne label
 jz label
@@ -42,18 +43,18 @@ jl label
 jge label
 call label
 ret
-inc
+inc reg
 or
-and
-xor
-clr
+and (only R0 = R0 and R1)
+xor (only R0 = R0 xor R1)
+clr (only R0)
 push reg
 pop reg
 lshift reg
 rshift reg
 cmp R0, reg
 inc16
-db byte
+db #imm
 ]]
 
 --Extracts the mneemonic and returns it, plus the rest of the line
