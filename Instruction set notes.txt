@@ -154,7 +154,7 @@ BF
 	3-byte
 	CALL
 
-C0, C2, C4, C5
+C0, C2, C4, C6
 	1 byte
 	16-bit increment of R1R0, R3R2, R5R4, or R7R6
 	Odd instructions are strangely broken
