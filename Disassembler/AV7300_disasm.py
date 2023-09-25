@@ -32,7 +32,7 @@ class AV7300_processor(idaapi.processor_t):
     id = 0x8000 + 7300
     
     # Processor features
-    flag = PR_DEFSEG32 | PRN_HEX | PR_RNAMESOK | PR_CNDINSNS
+    flag = PR_DEFSEG32 | PRN_HEX | PR_RNAMESOK | PR_CNDINSNS | PR_USE32
     
     # Number of bits in a byte for code segments (usually 8)
     # IDA supports values up to 32 bits
@@ -55,7 +55,7 @@ class AV7300_processor(idaapi.processor_t):
     
     assembler = {
         "header": [".???"],
-        "flag": AS_NCHRE | ASH_HEXF0 | ASD_DECF0 | ASO_OCTF0 | ASB_BINF0 | AS_NOTAB,
+        "flag": AS_NCHRE | ASH_HEXF0 | ASD_DECF0 | ASO_OCTF0 | ASB_BINF0 | 0,
         "uflag": 0,
         "name": "AV7300 assembler",
         "origin": ".org",
