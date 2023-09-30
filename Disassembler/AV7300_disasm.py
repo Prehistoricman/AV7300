@@ -177,6 +177,7 @@ class AV7300_processor(idaapi.processor_t):
         {'name': 'JC',     'feature': CF_JUMP,           'cmt': "Jump if carry"},
         {'name': 'JN',     'feature': CF_JUMP,           'cmt': "Jump if negative"},
         {'name': 'JI',     'feature': CF_JUMP,           'cmt': "Jump if interrupts enabled"},
+        {'name': 'UNKN_B8','feature': 0,                 'cmt': "Unkown B8 instruction"},
         {'name': 'RET',    'feature': CF_STOP,           'cmt': "Return"},
         {'name': 'RETI',   'feature': CF_STOP,           'cmt': "Return from interrupt"},
         {'name': 'JMP',    'feature': CF_JUMP,           'cmt': "Jump unconditionally"},
@@ -606,6 +607,8 @@ class AV7300_processor(idaapi.processor_t):
                 self.ana_single_reg("POP", 0x88)
         elif opcode >= 0x90 and opcode <= 0x9F:
             self.ana_rjmp()
+        elif opcode == 0xB8:
+            insn.itype = self.get_instruction("UNKN_B8")
         elif opcode == 0xB9:
             insn.itype = self.get_instruction("RET")
         elif opcode == 0xBA:
